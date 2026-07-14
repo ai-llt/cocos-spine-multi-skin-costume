@@ -156,6 +156,20 @@ newSlots.forEach((slot) => {
 - **本体插槽只需要采集一次**，在 `onLoad` 中记录即可。
 - **skin 数据来自 spine 源文件**（`.skel` / `.json`），运行时 `findSkin` 只能查找已存在的 skin。
 
+## 最终方案
+
+```
+① onLoad 时记录本体插槽
+          ↓
+② 按钮切换 → 更新 activeSkins 集合
+          ↓
+③ 合并 activeSkins 中所有 skin → setSkin
+          ↓
+④ 仅对新增的激活插槽按需加载纹理 → setSlotTexture
+```
+
+**不预加载、不全部挂载、不互相覆盖。内存大小与皮肤数量解耦。**
+
 ---
 
 _基于 Cocos Creator 3.8 · Spine WASM runtime · 2026-07-14_
